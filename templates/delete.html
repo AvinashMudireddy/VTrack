@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Delete Vehicle</h1>
+<p>Delete all records for a VIN.</p>
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+{% if delete_message %}
+<div class="success">{{ delete_message }}</div>
+{% endif %}
+
+<form method="post" action="/delete" novalidate>
+  <label for="delete_vin">VIN</label>
+  <input id="delete_vin" name="vin" required />
+
+  <div class="actions">
+    <button type="submit">Delete</button>
+  </div>
+</form>
+{% endblock %}

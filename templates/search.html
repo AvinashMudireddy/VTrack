@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Search Vehicle</h1>
+<p>Enter a VIN to view the latest update.</p>
+
+<form method="get" action="/search" novalidate>
+  <label for="search_vin">VIN</label>
+  <input id="search_vin" name="vin" value="{{ searched_vin or '' }}" required />
+
+  <div class="actions">
+    <button type="submit">Search</button>
+  </div>
+</form>
+
+{% if search_error %}
+<div class="error">{{ search_error }}</div>
+{% endif %}
+
+{% if result %}
+<table>
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>Handled By</th>
+      <th>Stock ID</th>
+      <th>VIN</th>
+      <th>Current Location</th>
+      <th>Previous Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ result.timestamp }}</td>
+      <td>{{ result.handled_by }}</td>
+      <td>{{ result.stock_id }}</td>
+      <td>{{ result.vin }}</td>
+      <td>{{ result.current_location }}</td>
+      <td>{{ result.previous_location }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

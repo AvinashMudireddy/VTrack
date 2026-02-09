@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Update Vehicle</h1>
+<p>Log a vehicle location update.</p>
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+{% if success %}
+<div class="success">{{ success }}</div>
+{% endif %}
+
+<form method="post" action="/update" novalidate>
+  <label for="handled_by">Handled By</label>
+  <input id="handled_by" name="handled_by" autocomplete="name" required />
+
+  <label for="vin">VIN</label>
+  <input id="vin" name="vin" required />
+
+  <label for="stock_id">Stock ID</label>
+  <input id="stock_id" name="stock_id" required />
+
+  <label for="current_location">Current Location</label>
+  <input id="current_location" name="current_location" required />
+
+  <div class="actions">
+    <button type="submit">Save Update</button>
+  </div>
+</form>
+
+<div class="actions">
+  <div class="dropdown" id="download-dropdown">
+    <button type="button" id="download-toggle">Download</button>
+    <div class="dropdown-menu" id="download-menu">
+      <button type="button" data-url="/download/csv">CSV</button>
+      <button type="button" data-url="/download/excel">Excel</button>
+      <button type="button" data-url="/download/pdf">PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const downloadToggle = document.getElementById("download-toggle");
+  const downloadMenu = document.getElementById("download-menu");
+  const dropdown = document.getElementById("download-dropdown");
+
+  downloadToggle.addEventListener("click", () => {
+    const isHidden = downloadMenu.style.display === "none" || !downloadMenu.style.display;
+    downloadMenu.style.display = isHidden ? "block" : "none";
+  });
+
+  downloadMenu.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-url]");
+    if (!button) return;
+    window.location.href = button.getAttribute("data-url");
+    downloadMenu.style.display = "none";
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!dropdown.contains(event.target)) {
+      downloadMenu.style.display = "none";
+    }
+  });
+</script>
+{% endblock %}
